@@ -13,7 +13,7 @@
     style="background-color: rgba(var(--overlay-color, 0, 0, 0), var(--overlay-opacity, 0.5));">
   </div>
 
-  <div
+  <div id="control-panel"
     class="fixed top-4 right-4 p-4 bg-white/80 backdrop-blur rounded-xl shadow hover:opacity-100 opacity-20 transition-opacity z-10">
     <label class="block">
       透明度
@@ -30,6 +30,7 @@
     const overlay = document.getElementById('overlay');
     const opacityInput = document.getElementById('opacityInput');
     const colorInput = document.getElementById('colorInput');
+    const controlPanel = document.getElementById('control-panel');
 
     // 接收來自 main.js 的初始設定
     ipcRenderer.on('init-settings', (event, settings) => {
@@ -64,6 +65,9 @@
 
     opacityInput.oninput = handleUpdate;
     colorInput.oninput = handleUpdate;
+
+    controlPanel.onmouseenter = () => ipcRenderer.send('set-ignore-mouse', false);
+    controlPanel.onmouseleave = () => ipcRenderer.send('set-ignore-mouse', true);
   </script>
 </body>
 
