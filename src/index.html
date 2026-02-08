@@ -15,6 +15,12 @@
 
   <div id="control-panel"
     class="fixed top-4 right-4 p-4 bg-white/80 backdrop-blur rounded-xl shadow hover:opacity-100 opacity-20 transition-opacity z-10">
+
+    <div id="drag-handle" class="flex justify-center cursor-move pb-2 mb-2 border-b border-gray-200"
+      style="-webkit-app-region: drag;">
+      <div class="w-8 h-1 bg-gray-400 rounded-full"></div>
+    </div>
+
     <label class="block">
       透明度
       <input type="range" id="opacityInput" min="0" max="1" step="0.1" value="0.5" class="w-full">
@@ -22,6 +28,10 @@
     <label class="block">
       顏色
       <input type="color" id="colorInput" class="w-full">
+    </label>
+    <label class="block select-none">
+      顯示於工具列
+      <input type="checkbox" id="showTaskbarCheck">
     </label>
   </div>
 
@@ -31,6 +41,7 @@
     const opacityInput = document.getElementById('opacityInput');
     const colorInput = document.getElementById('colorInput');
     const controlPanel = document.getElementById('control-panel');
+    const showTaskbarCheck = document.getElementById('showTaskbarCheck');
 
     // 接收來自 main.js 的初始設定
     ipcRenderer.on('init-settings', (event, settings) => {
@@ -68,6 +79,7 @@
 
     controlPanel.onmouseenter = () => ipcRenderer.send('set-ignore-mouse', false);
     controlPanel.onmouseleave = () => ipcRenderer.send('set-ignore-mouse', true);
+    showTaskbarCheck.onclick = (e) => ipcRenderer.send('set-show-taskbar', e.target.checked);
   </script>
 </body>
 

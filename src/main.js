@@ -18,7 +18,7 @@ function createWindow() {
     frame: false, // 移除視窗邊框 false
     transparent: true, // 開啟視窗透明 true
     alwaysOnTop: false, // 始終置頂 true
-    fullscreen: false, // 全螢幕 true
+    fullscreen: true, // 全螢幕 true
     skipTaskbar: false, // 不在工具列顯示 true
     webPreferences: {
       nodeIntegration: true,
@@ -42,6 +42,10 @@ function createWindow() {
 
   ipcMain.on('set-ignore-mouse', (event, active) => {
     win.setIgnoreMouseEvents(active, { forward: true });
+  })
+
+  ipcMain.on('set-show-taskbar', (event, active) => {
+    win.setSkipTaskbar(!active);
   })
 }
 
