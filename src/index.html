@@ -54,6 +54,10 @@
       applyStyle(settings);
     });
 
+    ipcRenderer.on('show-panel', (event, active) => {
+      controlPanel.hidden = !active;
+    })
+
     function applyStyle({ opacity, color }) {
       console.log('applyStyle', { opacity, color });
       document.body.style.setProperty('--overlay-opacity', opacity);

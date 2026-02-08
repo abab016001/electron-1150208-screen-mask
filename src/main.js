@@ -1,4 +1,5 @@
 const { app, BrowserWindow, screen, ipcMain } = require('electron');
+const { Tray, Menu, nativeImage } = require('electron')
 
 const path = require('path');
 
@@ -6,6 +7,8 @@ let overlaySettings = {
   opacity: 0.5,
   color: "255,0,0"
 }
+
+let tray = null;
 
 function createWindow() {
   const { width, height } = screen.getPrimaryDisplay().workAreaSize;
@@ -47,6 +50,23 @@ function createWindow() {
   ipcMain.on('set-show-taskbar', (event, active) => {
     win.setSkipTaskbar(!active);
   })
+
+  // --- 建立 Tray (系統匣圖示) ---
+  const icon = nativeImage.createFromPath(path.join(__dirname, 'icon.png'));
+  tray = new Tray(icon);
+  // 設定滑鼠移上去顯示的文字
+  tray.setToolTip('螢幕遮罩工具');
+  // 建立右鍵選單
+  const contextMenu = Menu.buildFromTemplate([
+    { label: '顯示控制面板', click: () => win.webContents.send('show-panel', true) },
+    { label: '隱藏控制面板', click: () => win.webContents.send('show-panel', false) },
+    { label: '完全退出', click: () => app.quit() }
+  ]);
+  tray.setContextMenu(contextMenu);
+  // 選用：點擊圖示時切換顯示/隱藏
+  tray.on('click', () => {
+    win.isVisible() ? win.hide() : win.show();
+  });
 }
 
 app.whenReady().then(createWindow);
