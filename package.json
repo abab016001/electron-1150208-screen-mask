@@ -3,20 +3,39 @@
   "version": "1.0.0",
   "main": "src/main.js",
   "scripts": {
-    "build:css": "npx @tailwindcss/cli -i ./src/input.css -o ./dist/output.css",
+    "build:css": "npx @tailwindcss/cli -i ./src/input.css -o ./src/output.css --minify",
     "watch:css": "npx @tailwindcss/cli -i ./src/input.css -o ./dist/output.css --watch",
     "start": "npm run build:css && electron .",
-    "dev": "npm run build:css && (npx @tailwindcss/cli -i ./src/input.css -o ./dist/output.css --watch & electron .)"
+    "dev": "npm run build:css && (npx @tailwindcss/cli -i ./src/input.css -o ./dist/output.css --watch & electron .)",
+    "pack": "npm run build:css && electron-builder --win --x64"
+  },
+  "build": {
+    "appId": "com.jinl.app",
+    "productName": "螢幕遮罩工具",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "icon": "src/assets/icon.ico"
+    },
+    "files": [
+      "src/**/*",
+      "package.json",
+      "!src/input.css"
+    ]
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@tailwindcss/cli": "^4.1.18",
     "electron": "^40.2.1",
+    "electron-builder": "^26.7.0",
     "tailwindcss": "^4.1.18"
-  },
-  "dependencies": {
-    "@tailwindcss/cli": "^4.1.18"
   }
 }

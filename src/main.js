@@ -18,9 +18,9 @@ function createWindow() {
     height: height,
     x: 0,
     y: 0,
-    frame: false, // 移除視窗邊框 false
+    frame: false, // 視窗邊框 false
     transparent: true, // 開啟視窗透明 true
-    alwaysOnTop: false, // 始終置頂 true
+    alwaysOnTop: true, // 始終置頂 true
     fullscreen: true, // 全螢幕 true
     skipTaskbar: false, // 不在工具列顯示 true
     webPreferences: {
@@ -52,7 +52,7 @@ function createWindow() {
   })
 
   // --- 建立 Tray (系統匣圖示) ---
-  const icon = nativeImage.createFromPath(path.join(__dirname, 'icon.png'));
+  const icon = nativeImage.createFromPath(path.join(__dirname, 'assets/icon.png'));
   tray = new Tray(icon);
   // 設定滑鼠移上去顯示的文字
   tray.setToolTip('螢幕遮罩工具');
