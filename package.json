@@ -1,0 +1,22 @@
+{
+  "name": "screen-mask",
+  "version": "1.0.0",
+  "main": "src/main.js",
+  "scripts": {
+    "build:css": "npx @tailwindcss/cli -i ./src/input.css -o ./dist/output.css",
+    "watch:css": "npx @tailwindcss/cli -i ./src/input.css -o ./dist/output.css --watch",
+    "start": "npm run build:css && electron .",
+    "dev": "npm run build:css && (npx @tailwindcss/cli -i ./src/input.css -o ./dist/output.css --watch & electron .)"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "electron": "^40.2.1",
+    "tailwindcss": "^4.1.18"
+  },
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.18"
+  }
+}

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="../dist/output.css">
+</head>
+
+<body class="h-screen w-screen overflow-hidden">
+  <div id="overlay" class="fixed inset-0 transition-all duration-300 pointer-events-none"
+    style="background-color: rgba(var(--overlay-color, 0, 0, 0), var(--overlay-opacity, 0.5));">
+  </div>
+
+  <div
+    class="fixed top-4 right-4 p-4 bg-white/80 backdrop-blur rounded-xl shadow hover:opacity-100 opacity-20 transition-opacity z-10">
+    <label class="block">
+      透明度
+      <input type="range" id="opacityInput" min="0" max="1" step="0.1" value="0.5" class="w-full">
+    </label>
+  </div>
+
+  <script>
+    const { ipcRenderer } = require('electron');
+    const overlay = document.getElementById('overlay');
+    const opacityInput = document.getElementById('opacityInput');
+
+    // 接收來自 main.js 的初始設定
+    ipcRenderer.on('init-settings', (event, settings) => {
+      opacityInput.value = opacity;
+      applyStyle(settings);
+    });
+
+    function applyStyle({ opacity }) {
+      document.body.style.setProperty('--overlay-opacity', opacity);
+    }
+
+    function handleUpdate() {
+      const newSettings = {
+        opacity: opacityInput.value
+      }
+      applyStyle(newSettings);
+      ipcRenderer.send('upload-settings', newSettings);
+    }
+
+    opacityInput.oninput = handleUpdate;
+  </script>
+</body>
+
+</html>
