@@ -3,7 +3,8 @@ const { app, BrowserWindow, screen, ipcMain } = require('electron');
 const path = require('path');
 
 let overlaySettings = {
-  opacity: 0.9
+  opacity: 0.5,
+  color: "255,0,0"
 }
 
 function createWindow() {
